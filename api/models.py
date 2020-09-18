@@ -1,3 +1,23 @@
 from django.db import models
+from enum import IntEnum
 
-# Create your models here.
+
+class Station(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class DataType(IntEnum):
+    TEMPERATURE = 1
+    PRESSURE = 2
+    HUMIDITY = 3
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, key.name) for key in cls]
+
+
+class Record(models.Model):
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    data_type = models.IntegerField(choices=DataType.choices())
+    value = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False, null=False, blank=False)
