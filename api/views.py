@@ -5,7 +5,7 @@ from django.http import JsonResponse
 def index(request):
     return HttpResponse("Hello, world. You're at the api index.")
 
-
+#zmiana
 # Create your views here.
 
 def get_stations(request):
