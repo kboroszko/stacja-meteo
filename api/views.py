@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-
+from handlers.data_handler import stations_handler
+from django.http import JsonResponse
 
 def index(request):
     return HttpResponse("Hello, world. You're at the api index.")
@@ -8,13 +9,13 @@ def index(request):
 # Create your views here.
 
 def get_stations(request):
-    return HttpResponse(f"get station ids endpoint.")
+    dane = stations_handler()
+    return JsonResponse(dane)
 
 
 def get_data(request, station_id):
     # use a handler here
-    dane = get_data_handler(station_id)
-    return HttpResponse(dane)
+    return HttpResponse(f"stationId:{station_id}\nget data endpoint.")
 
 
 def post_data(request, station_id):
