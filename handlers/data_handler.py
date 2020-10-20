@@ -1,4 +1,6 @@
 from api.models import Station
+
+
 def stations_handler():
     stacje = {}
     for o in Station.objects.all():
