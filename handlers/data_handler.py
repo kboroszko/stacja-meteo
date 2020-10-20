@@ -6,3 +6,6 @@ def stations_handler():
     for o in Station.objects.all():
        stacje[o.name] = o.id
     return stacje
+
+def rekord_handler():
+    pass
