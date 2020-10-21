@@ -20,4 +20,7 @@ class Record(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     data_type = models.IntegerField(choices=DataType.choices())
     value = models.FloatField()
-    timestamp = models.DateTimeField(auto_now_add=True, editable=False, null=False, blank=False)
+    timestamp = models.DateTimeField(auto_now_add=False, editable=True, null=False, blank=False)
+
+    class Meta:
+        unique_together = ('station', 'data_type', 'timestamp')

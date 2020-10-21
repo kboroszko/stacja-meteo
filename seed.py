@@ -1,28 +1,25 @@
 import os, django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "meteo.settings")
-django.setup()
-
+from datetime import datetime, timezone, timedelta
 from django_seed import Seed
 import random
 
-
-seeder = Seed.seeder(locale='pl_PL')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "meteo.settings")
+django.setup()
 
 from api.models import *
 
-seeder.add_entity(Station, 1, {
-    'name': seeder.faker.city(),
-})
-
-# inserted_pks = seeder.execute()
-# station_id = inserted_pks[Station][0]
-
 seeder = Seed.seeder(locale='pl_PL')
 
-seeder.add_entity(Record, 10, {
-    # 'station': Station.objects.filter(id=station_id).first(),
-    'data_type': DataType.PRESSURE,
-    'value': random.random()
-})
+if Station.objects.filter(id=1).exists():
+    s = Station.objects.get(id=1)
+else:
+    s = Station(name=seeder.faker.city())
+    s.save()
 
-seeder.execute()
+start_date = datetime.utcnow() - timedelta(days=1)
+
+for i in range(100):
+    ts = start_date + i * timedelta(minutes=1)
+    r = Record(station=s, data_type=DataType.PRESSURE, value=random.random() * 15,
+               timestamp=ts.astimezone(tz=timezone.utc))
+    r.save()
