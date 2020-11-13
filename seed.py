@@ -20,6 +20,13 @@ start_date = datetime.utcnow() - timedelta(days=1)
 
 for i in range(100):
     ts = start_date + i * timedelta(minutes=1)
-    r = Record(station=s, data_type=DataType.PRESSURE, value=random.random() * 15,
+    r1 = Record(station=s, data_type=DataType.PRESSURE, value=random.random() * 15,
                timestamp=ts.astimezone(tz=timezone.utc))
-    r.save()
+    r2 = Record(station=s, data_type=DataType.HUMIDITY, value=random.random() * 15,
+               timestamp=ts.astimezone(tz=timezone.utc))
+    r3 = Record(station=s, data_type=DataType.TEMPERATURE, value=random.random() * 15,
+               timestamp=ts.astimezone(tz=timezone.utc))
+
+    r1.save()
+    r2.save()
+    r3.save()
