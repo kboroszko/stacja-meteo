@@ -1,5 +1,6 @@
 from api.models import Station, Record, DataType
-
+import random
+from datetime import datetime, timezone, timedelta
 
 def stations_handler():
     stacje = {}
@@ -20,3 +21,12 @@ def get_rekords_handler(station_id, date_from, date_to, data_type):
 
 def data_type_str_to_int_handler(data_type_name):
     return DataType[data_type_name]
+
+
+def post_handler(station_id,data_type,value,timestamp):
+    s = Station.objects.get(id = station_id)
+    r = Record(Station=s, data_type=data_type , value = value,
+               timestamp=timestamp)
+    r.save()
+
+
