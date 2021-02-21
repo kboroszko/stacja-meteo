@@ -29,12 +29,13 @@ def get_data(request, station_id):
 def post_data(request, station_id):
     timestamp = request.POST.get('timestamp')
     value = request.POST.get('value')
-    data_type =data_type_str_to_int_handler(request.POST.get('data_type'))
-    post_handler(station_id,value,data_type,timestamp)
     if not timestamp:
         raise Exception()
     if not value:
         raise Exception()
+    data_type = data_type_str_to_int_handler(request.POST.get('data_type'))
+    post_handler(station_id, value, data_type, timestamp)
+
     return HttpResponse(status=200)
 
 
