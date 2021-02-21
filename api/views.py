@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseServerError
-from handlers.data_handler import stations_handler, get_rekords_handler, data_type_str_to_int_handler
+from handlers.data_handler import stations_handler, get_rekords_handler, data_type_str_to_int_handler, post_handler
 from django.http import JsonResponse
 import sys
 
@@ -27,5 +27,14 @@ def get_data(request, station_id):
 
 
 def post_data(request, station_id):
-    # use a handler here
-    return HttpResponse(f"stationId:{station_id}\npost data endpoint.")
+    timestamp = request.POST.get('timestamp')
+    value = request.POST.get('value')
+    data_type =data_type_str_to_int_handler(request.POST.get('data_type'))
+    post_handler(station_id,value,data_type,timestamp)
+    if not timestamp:
+        raise Exception()
+    if not value:
+        raise Exception()
+    return HttpResponse(status=200)
+
+
